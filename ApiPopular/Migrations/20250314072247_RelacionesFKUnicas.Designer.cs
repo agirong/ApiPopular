@@ -4,6 +4,7 @@ using ApiPopular.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiPopular.Migrations
 {
     [DbContext(typeof(ApiPopularContext))]
-    partial class ApiPopularContextModelSnapshot : ModelSnapshot
+    [Migration("20250314072247_RelacionesFKUnicas")]
+    partial class RelacionesFKUnicas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,12 +36,7 @@ namespace ApiPopular.Migrations
                     b.Property<string>("NombreAsesor")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SolicitudesNoSolicitud")
-                        .HasColumnType("int");
-
                     b.HasKey("CodigoAsesor");
-
-                    b.HasIndex("SolicitudesNoSolicitud");
 
                     b.ToTable("Asesores");
                 });
@@ -54,12 +52,7 @@ namespace ApiPopular.Migrations
                     b.Property<string>("NombreEstado")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SolicitudesNoSolicitud")
-                        .HasColumnType("int");
-
                     b.HasKey("IdEstado");
-
-                    b.HasIndex("SolicitudesNoSolicitud");
 
                     b.ToTable("Estados");
                 });
@@ -72,15 +65,10 @@ namespace ApiPopular.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdPrestamo"));
 
-                    b.Property<int?>("SolicitudesNoSolicitud")
-                        .HasColumnType("int");
-
                     b.Property<string>("TipoPrestamo")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdPrestamo");
-
-                    b.HasIndex("SolicitudesNoSolicitud");
 
                     b.ToTable("Prestamos");
                 });
@@ -122,33 +110,57 @@ namespace ApiPopular.Migrations
 
                     b.HasKey("NoSolicitud");
 
+                    b.HasIndex("CodigoAsesor")
+                        .IsUnique();
+
+                    b.HasIndex("IdEstado")
+                        .IsUnique();
+
+                    b.HasIndex("IdPrestamo")
+                        .IsUnique();
+
                     b.ToTable("Solicitudes");
+                });
+
+            modelBuilder.Entity("ApiPopular.Models.Solicitudes", b =>
+                {
+                    b.HasOne("ApiPopular.Models.Asesores", "Asesores")
+                        .WithOne("Solicitudes")
+                        .HasForeignKey("ApiPopular.Models.Solicitudes", "CodigoAsesor")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ApiPopular.Models.Estados", "Estados")
+                        .WithOne("Solicitudes")
+                        .HasForeignKey("ApiPopular.Models.Solicitudes", "IdEstado")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ApiPopular.Models.Prestamos", "Prestamos")
+                        .WithOne("Solicitudes")
+                        .HasForeignKey("ApiPopular.Models.Solicitudes", "IdPrestamo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Asesores");
+
+                    b.Navigation("Estados");
+
+                    b.Navigation("Prestamos");
                 });
 
             modelBuilder.Entity("ApiPopular.Models.Asesores", b =>
                 {
-                    b.HasOne("ApiPopular.Models.Solicitudes", "Solicitudes")
-                        .WithMany()
-                        .HasForeignKey("SolicitudesNoSolicitud");
-
                     b.Navigation("Solicitudes");
                 });
 
             modelBuilder.Entity("ApiPopular.Models.Estados", b =>
                 {
-                    b.HasOne("ApiPopular.Models.Solicitudes", "Solicitudes")
-                        .WithMany()
-                        .HasForeignKey("SolicitudesNoSolicitud");
-
                     b.Navigation("Solicitudes");
                 });
 
             modelBuilder.Entity("ApiPopular.Models.Prestamos", b =>
                 {
-                    b.HasOne("ApiPopular.Models.Solicitudes", "Solicitudes")
-                        .WithMany()
-                        .HasForeignKey("SolicitudesNoSolicitud");
-
                     b.Navigation("Solicitudes");
                 });
 #pragma warning restore 612, 618
