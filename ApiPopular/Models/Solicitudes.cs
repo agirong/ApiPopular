@@ -15,7 +15,13 @@ namespace ApiPopular.Models
         public string? DocIdentidad { get; set; }
         public string? DireccionCliente { get; set; }
         public int IdEstado { get; set; }
+        [ForeignKey("IdEstado")]
+        public Estados? Estados { get; set; }
         public int IdPrestamo { get; set; }
+        [ForeignKey("IdPrestamo")]
+        public Prestamos? Prestamos { get; set; }
         public int CodigoAsesor { get; set; }
+        [ForeignKey("CodigoAsesor")]
+        public Asesores? Asesores { get; set; }
     }
 }
