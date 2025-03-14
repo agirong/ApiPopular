@@ -1,4 +1,9 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using ApiPopular.Data;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<ApiPopularContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ApiPopularContext") ?? throw new InvalidOperationException("Connection string 'ApiPopularContext' not found.")));
 
 // Add services to the container.
 
