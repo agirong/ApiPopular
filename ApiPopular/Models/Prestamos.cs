@@ -9,6 +9,5 @@ namespace ApiPopular.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]   
         public int IdPrestamo { get; set; }
         public string? TipoPrestamo { get; set; }
-        public Solicitudes? Solicitudes { get; set; }
     }
 }

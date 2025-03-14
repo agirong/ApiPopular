@@ -9,6 +9,5 @@ namespace ApiPopular.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CodigoAsesor { get; set; }
         public string? NombreAsesor { get; set; }
-        public Solicitudes? Solicitudes { get; set; }
     }
 }

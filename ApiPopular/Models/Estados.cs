@@ -9,7 +9,6 @@ namespace ApiPopular.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IdEstado { get; set; }
-        public string? NombreEstado { get; set; }
-        public Solicitudes? Solicitudes { get; set; }
+        public string? NombreEstado { get; set; }        
     }
 }
